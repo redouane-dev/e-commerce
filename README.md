@@ -14,7 +14,7 @@ TODO: Add description here
 [Docker compose](https://docs.docker.com/compose/) provides an easy way for starting a multi-service architecture on a local or production environment. Simply run the following instructions to get started:
 
 ```bash
-docker-compose up -d # You may add a service name here to start specific services
+docker-compose up -d # You may add a service name here to start specific services only
 ```
 
 ## Resources

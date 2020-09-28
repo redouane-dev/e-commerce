@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  api:
+    container_name: project-drart-api
+    build: ./back-end
+    restart: on-failure
+    # depends_on:
+    command: >
+      npx nodemon src/index.js
+    volumes:
+      - ${PWD}/back-end/src:/usr/app/src
+    ports:
+      - 8080:8080
+    environment:
+      - "PORT=8080"
+      - "HOST=0.0.0.0"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+networks:
+  default:
+    external:
+      name: project-drart-network
