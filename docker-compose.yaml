@@ -7,14 +7,45 @@ services:
     restart: on-failure
     # depends_on:
     command: >
-      npx nodemon src/index.js
+      npx nodemon src/app.js
     volumes:
-      - ${PWD}/back-end/src:/usr/app/src
+      - ${PWD}/src:/usr/app/src
     ports:
       - 8080:8080
-    environment:
-      - "PORT=8080"
-      - "HOST=0.0.0.0"
+    env_file:
+      - back-end/local.config.env
+      - back-end/mongo.secret.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  mongo:
+    container_name: project-drart-mongo
+    image: mongo:4.4.1-bionic
+    restart: on-failure
+    volumes:
+    #  - ${PWD}/persistence/mongodb:/data/db
+     - /tmp/mongodb:/data/db
+    ports:
+      - 27017:27017
+    env_file:
+      - back-end/mongo.secret.env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  mongo-express:
+    container_name: project-drart-mongo-express
+    image: mongo-express:0.54.0
+    restart: on-failure
+    ports:
+      - 8081:8081
+    env_file:
+      - back-end/mongo-express.secret.env
     logging:
       driver: "json-file"
       options:

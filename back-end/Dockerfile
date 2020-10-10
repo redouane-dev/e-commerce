@@ -1,7 +1,7 @@
 FROM node:14.11.0-stretch-slim
 
 WORKDIR /usr/app
-COPY package*.json ./
+COPY package*.json private.key ./
 RUN npm install
 # For production
 # RUN npm ci --only=production
@@ -10,4 +10,4 @@ COPY src/ ./src/
 
 EXPOSE 8080
 
-CMD ["node", "src/index.js"]
+CMD ["node", "src/app.js"]

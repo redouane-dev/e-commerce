@@ -1,0 +1,24 @@
+const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
+// Get Users model - must be already defined in the current Mongoose instance
+const Users = mongoose.model('Users');
+
+passport.use(new LocalStrategy({
+    usernameField: 'user[email]',
+    passwordField: 'user[password]',
+},
+    function (email, password, done) {
+        Users.findOne({ email: email })
+            .then(user => {
+                if (!user || !user.validatePassword(password)) {
+                    return done(null, false, {
+                        errors: { 'email or password': 'is invalid' }
+                    });
+                }
+                return done(null, user);
+            })
+            .catch(done);
+    }
+));

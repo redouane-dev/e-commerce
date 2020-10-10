@@ -1,5 +1,8 @@
 # Project-specific
 assets/images/*
+persistence
+*.env
+*.key
 
 # Logs
 logs
