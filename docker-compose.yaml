@@ -5,11 +5,12 @@ services:
     container_name: project-drart-api
     build: ./back-end
     restart: on-failure
-    # depends_on:
+    depends_on:
+      - mongo
     command: >
       npx nodemon src/app.js
     volumes:
-      - ${PWD}/src:/usr/app/src
+      - ${PWD}/back-end/src:/usr/app/src
     ports:
       - 8080:8080
     env_file:
@@ -28,10 +29,10 @@ services:
     volumes:
     #  - ${PWD}/persistence/mongodb:/data/db
      - /tmp/mongodb:/data/db
-    ports:
-      - 27017:27017
-    env_file:
-      - back-end/mongo.secret.env
+    # ports:
+    #   - 27017:27017
+    # env_file:
+    #   - back-end/mongo.secret.env
     logging:
       driver: "json-file"
       options:
@@ -42,10 +43,12 @@ services:
     container_name: project-drart-mongo-express
     image: mongo-express:0.54.0
     restart: on-failure
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
-    env_file:
-      - back-end/mongo-express.secret.env
+    # env_file:
+    #   - back-end/mongo-express.secret.env
     logging:
       driver: "json-file"
       options:
